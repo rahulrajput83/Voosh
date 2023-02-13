@@ -1,0 +1,160 @@
+.nav {
+  background: rgb(27, 169, 76);
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  color: #fff;
+}
+
+.Link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.logout {
+  border: none;
+  background: white;
+  cursor: pointer;
+  box-shadow: 2px 2px 30px 1px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0.8rem;
+}
+
+.dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 1rem 0.4rem;
+  flex-direction: column;
+}
+
+.toDo {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.item {
+  text-decoration: none;
+  margin-top: 1.5rem;
+  padding: 0.8rem 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 800ms ease-in-out;
+  filter: drop-shadow(0 0 30px 1px rgba(0, 0, 0, 0.1));
+}
+
+.item:hover {
+  box-shadow: 2px 2px 50px #e4e3e3,
+    -2px -2px 100px #ffffff;
+}
+
+.number {
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  color: white;
+  background: rgb(27, 169, 76);
+  border-radius: 50%;
+}
+
+.title {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: black;
+}
+
+.newToDo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.4rem;
+  border: 0.15rem solid rgb(27, 169, 76);
+  box-sizing: border-box;
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  right: 2%;
+  border: 0.2rem solid #1ba94c;
+  border-radius: 50%;
+  border-top: 0.2rem solid white;
+  width: 1.5rem;
+  height: 1.5rem;
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.newToDo input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: none;
+  outline: none;
+}
+
+.newToDo button {
+  border: none;
+  padding: 0.8rem 1rem;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.newToDo button:active {
+  transform: scale(0.9);
+}
+
+.newToDo button:disabled {
+  cursor: not-allowed;
+}
+
+.empty {
+  margin-top: 1rem;
+}
+
+.lastUpdate {
+  position: absolute;
+  right: 0.4rem;
+  bottom: 0.1rem;
+  font-size: 0.55rem;
+  color: rgb(41, 40, 40);
+}
+
+@media (min-width: 768px) {
+  .item {
+    width: 45%;
+  }
+
+  .newToDo {
+    width: 45%;
+  }
+}

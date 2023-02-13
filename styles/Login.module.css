@@ -1,0 +1,104 @@
+.LoginCard {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 95%;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, 0%);
+    box-sizing: border-box;
+    box-shadow: 2px 2px 50px #e4e3e3,
+             -2px -2px 100px #ffffff;
+    padding: 2rem 1rem;
+}
+
+.LoginCard .heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.LoginCard .Form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.LoginCard .input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    outline: none;
+    border-radius: 2rem;
+    border: 0.15rem solid rgb(27, 169, 76);
+    margin-top: 1rem;
+}
+
+.LoginCard .Button, .LoginCard .btnGroup .Link {
+    width: 100%;
+    text-decoration: none;
+    margin: 2rem auto auto auto;
+    border: 0.15rem solid #1ba94c;
+    background: #1ba94c;
+    padding: 0.4rem 1rem;
+    color: white;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 2px 2px 30px 1px rgba(27, 169, 76, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.LoginCard .btnGroup {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.LoginCard .Button:disabled {
+    cursor: not-allowed;
+}
+
+.LoginCard .loader {
+    border: 0.2rem solid #1ba94c;
+    border-radius: 50%;
+    border-top: 0.2rem solid white;
+    width: 1.5rem;
+    height: 1.5rem;
+    animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+    0%{
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.LoginCard .Button:hover {
+    background: white;
+    color: #1ba94c;
+}
+
+.LoginCard .error {
+    color: red;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+    .LoginCard {
+        width: 40%;
+        padding: 2rem;
+    }
+    .LoginCard .Button, .LoginCard .btnGroup .Link {
+        width: 30%;
+    }
+}
