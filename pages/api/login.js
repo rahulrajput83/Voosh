@@ -3,23 +3,6 @@ import RegisterModel from '../../Model/NewUser';
 import bcrypt from 'bcryptjs';
 const jwt = require('jsonwebtoken');
 
-/* function verify(handler) {
-  return async (req, res) => {
-    const token = req.headers['access'];
-    jwt.verify(token, 'kjxzchdvifdaslkgfygdf', (err, decoded) => {
-      if (err) {
-        console.log('Token Expired')
-      }
-      else{
-        console.log(decoded.id)
-      }
-      
-      return handler(req, res);
-    })
-
-  }
-} */
-
 const LoginHandle = async (req, res) => {
   if (req.method !== 'POST') {
     res.send({ message: 'Only POST requests allowed' })
