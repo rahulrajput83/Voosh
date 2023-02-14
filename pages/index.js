@@ -20,6 +20,7 @@ export default function Home() {
     desc: '',
     lastUpdate: ''
   })
+  const [loaded, setLoaded] = useState(false)
 
 
   useEffect(() => {
@@ -37,6 +38,7 @@ export default function Home() {
           router.push(del())
         }
         else {
+          setLoaded(true)
           setData(res.data);
         }
 
@@ -83,6 +85,7 @@ export default function Home() {
         </div>
         <button onClick={() => setAddBtnDisable(!addBtnDisable)} disabled={addBtnDisable}>ADD</button>
       </div>
+      
       <div className={style.toDo}>
         {data && data.length > 0 && data.map((e, index) => {
           return (
@@ -93,7 +96,8 @@ export default function Home() {
             </div>
           )
         })}
-        {data && data.length === 0 && <span className={style.empty}>Your To Do list is empty. Add Now !!</span>}
+        {!loaded ? <div className={style.loading}></div> : null}
+        {data && loaded && data.length === 0 && <span className={style.empty}>Your To Do list is empty. Add Now !!</span>}
       </div>
       {showToDo ?
         <div className={style.showToDo}>

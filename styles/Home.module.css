@@ -88,15 +88,22 @@
   position: relative;
 }
 
-.loader {
-  position: absolute;
-  right: 2%;
+.loader, .loading {
   border: 0.2rem solid #1ba94c;
   border-radius: 50%;
   border-top: 0.2rem solid white;
   width: 1.5rem;
   height: 1.5rem;
   animation: spin 900ms linear infinite;
+}
+
+.loader {
+  position: absolute;
+  right: 2%;
+}
+
+.loading {
+  margin: 1rem;
 }
 
 @keyframes spin {
