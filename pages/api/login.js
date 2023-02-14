@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const LoginHandle = async (req, res) => {
   if (req.method !== 'POST') {
-    res.send({ message: 'Only POST requests allowed' })
+    res.json({ message: 'Only POST requests allowed' })
   }
   try {
     await MongoDBConnect();

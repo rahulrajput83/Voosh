@@ -1,33 +1,21 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import MongoDBConnect from '../../Utils/MongoDB';
 import ToDoModel from '../../Model/AddNewToDo';
-const jwt = require('jsonwebtoken');
+import JWTAuth from '../../Utils/JWTAut';
 
 
 const GetToDoHandle = async (req, res) => {
-    await MongoDBConnect();
-    const verifyToken = req.headers.accessToken;
-    if (!verifyToken) {
-        res.json({ message: 'Unauthorized' });
-    } else {
-        jwt.verify(verifyToken, 'secretKey', (err, decoded) => {
-            if (err) {
-                res.json({ message: 'Unauthorized' });
-            }
-            else {
-                res.json({ decoded: decoded })
-                ToDoModel.find({ email: req.body.email })
-                    .then((value) => {
-                        res.json({ message: 'Successfully Added' })
-                    })
-                    .catch((err) => {
-                        res.json({ message: 'Error, please try again.' })
-                    })
-            }
-        })
+    if (req.method !== 'GET') {
+        res.json({ message: 'Only GET requests allowed' })
     }
-
+    try {
+        await MongoDBConnect();
+        const ToDo = await ToDoModel.find({email: req.user.email});
+        res.json({ message: 'Success', data: ToDo})
+    }
+    catch (error) {
+        res.json({ message: 'Error, Please try again...'})
+    }
 }
 
-export default GetToDoHandle;
+
+export default JWTAuth(GetToDoHandle);
