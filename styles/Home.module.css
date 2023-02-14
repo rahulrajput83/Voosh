@@ -50,12 +50,13 @@
   position: relative;
   cursor: pointer;
   transition: all 800ms ease-in-out;
-  filter: drop-shadow(0 0 30px 1px rgba(0, 0, 0, 0.1));
+  box-shadow: 2px 2px 10px #e4e3e3,
+    -2px -2px 10px #ffffff;
 }
 
 .item:hover {
   box-shadow: 2px 2px 50px #e4e3e3,
-    -2px -2px 100px #ffffff;
+    -2px -2px 50px #ffffff;
 }
 
 .number {
@@ -144,7 +145,7 @@
 .lastUpdate {
   position: absolute;
   right: 0.4rem;
-  bottom: 0.1rem;
+  bottom: 0.25rem;
   font-size: 0.55rem;
   color: rgb(41, 40, 40);
 }

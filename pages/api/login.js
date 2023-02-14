@@ -1,10 +1,24 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import MongoDBConnect from '../../Utils/MongoDB';
 import RegisterModel from '../../Model/NewUser';
 import bcrypt from 'bcryptjs';
 const jwt = require('jsonwebtoken');
 
+/* function verify(handler) {
+  return async (req, res) => {
+    const token = req.headers['access'];
+    jwt.verify(token, 'kjxzchdvifdaslkgfygdf', (err, decoded) => {
+      if (err) {
+        console.log('Token Expired')
+      }
+      else{
+        console.log(decoded.id)
+      }
+      
+      return handler(req, res);
+    })
+
+  }
+} */
 
 const LoginHandle = async (req, res) => {
   if (req.method !== 'POST') {
@@ -14,12 +28,12 @@ const LoginHandle = async (req, res) => {
     await MongoDBConnect();
     const responseData = await RegisterModel.findOne({ email: req.body.email })
     if (responseData) {
-      const checkPassword = bcrypt.compareSync(req.body.password, responseData.password)
+      const checkPassword = await bcrypt.compareSync(req.body.password, responseData.password)
       if (!checkPassword) {
         res.json({ message: 'Invalid email or password...' })
       }
       else {
-        const token = jwt.sign({ id: responseData._id, email: responseData.email, hello: 'dujvgb' }, 'kjxzchdvifdaslkgfygdf', { expiresIn: '1h' });
+        const token = await jwt.sign({ id: responseData._id, email: responseData.email, }, process.env.JWT);
         res.json({ message: 'User Login...', acccessToken: token })
       }
     }

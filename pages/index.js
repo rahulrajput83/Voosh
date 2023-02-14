@@ -57,7 +57,6 @@ export default function Home() {
           {addBtnDisable ? <div className={style.loader}></div> : null}
           <input value={newToDo} onChange={(e) => setNewToDo(e.target.value)} type='text' placeholder='Enter New To Do' />
         </div>
-
         <button onClick={() => setAddBtnDisable(!addBtnDisable)} disabled={addBtnDisable}>ADD</button>
       </div>
       <div className={style.toDo}>
