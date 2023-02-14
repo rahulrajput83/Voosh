@@ -4,7 +4,7 @@ import style from '../styles/Home.module.css'
 import Navbar from '../Components/navbar'
 import { MdClose } from 'react-icons/md'
 import { useRouter } from 'next/router'
-import logOut from '../Components/logOut'
+import {del} from '../Components/logOut'
 
 
 
@@ -34,7 +34,7 @@ export default function Home() {
       .then(res => res.json())
       .then((res) => {
         if (res.message === 'Token Expired') {
-          router.push(logOut())
+          router.push(del())
         }
         else {
           setData(res.data);
@@ -57,7 +57,7 @@ export default function Home() {
         .then(res => res.json())
         .then((res) => {
           if (res.message === 'Token Expired') {
-            router.push(logOut())
+            router.push(del())
           }
           else {
             setOneToDo({ ...oneToDo, title: res.data.title, desc: res.data.desc, lastUpdate: res.data.lastUpdate })
