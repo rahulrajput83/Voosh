@@ -22,7 +22,7 @@ const AddToDoHandle = async (req, res) => {
         res.json({ message: 'Successfully Added' })
     }
     catch (error) {
-        res.json({ message: 'Error, Please try again...', err: error })
+        res.json({ message: 'Error, Please try again...'})
     }
 }
 
