@@ -59,10 +59,9 @@ export default function Home() {
       <div className={style.toDo}>
         {data.length > 0 && data.map((e, index) => {
           return (
-            <Link href={`/todo/${e.addedOn}`} className={style.item} key={`item-${index}`}>
+            <Link href={`/todo/${e._id}`} className={style.item} key={`item-${index}`}>
               <span className={style.number}>{index + 1}</span>
               <span className={style.title}>{e.title}</span>
-
               <span className={style.lastUpdate}>{e.lastUpdate}</span>
             </Link>
           )
