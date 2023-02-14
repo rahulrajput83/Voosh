@@ -4,7 +4,7 @@ import style from '../styles/Home.module.css'
 import Navbar from '../Components/navbar'
 import { MdClose } from 'react-icons/md'
 import { useRouter } from 'next/router'
-import logout from '../Components/logout'
+import logOut from '../Components/logOut'
 
 
 
