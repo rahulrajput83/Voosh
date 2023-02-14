@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import style from '../styles/Home.module.css'
 import Navbar from '../Components/navbar'
-import { MdClose, MdDelete, MdEdit } from 'react-icons/md'
+import { MdClose, MdDelete, MdEdit, MdSave } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { del } from '../Components/del'
 
@@ -20,7 +20,8 @@ export default function Home() {
     desc: '',
     lastUpdate: ''
   })
-  const [loaded, setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(false);
+  const [readOnly, setReadOnly] = useState(false)
 
 
   useEffect(() => {
@@ -85,7 +86,7 @@ export default function Home() {
         </div>
         <button onClick={() => setAddBtnDisable(!addBtnDisable)} disabled={addBtnDisable}>ADD</button>
       </div>
-      
+
       <div className={style.toDo}>
         {data && data.length > 0 && data.map((e, index) => {
           return (
@@ -101,17 +102,19 @@ export default function Home() {
       </div>
       {showToDo ?
         <div className={style.showToDo}>
+          <div className={style.loading}></div>
           {oneToDo.title ?
             <>
               <div className={style.oneHead}>
                 <span className={style.oneLast}>Last Update: {oneToDo.lastUpdate}</span>
-                <MdClose className={style.icon} onClick={() => setShowToDo(false)} />
+                <MdClose className={style.icon} onClick={() => { setShowToDo(false); setReadOnly(false) }} />
               </div>
               <div className={style.data}>
-                <input name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
-                <textarea name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
+                <input className={`${style.input} ${readOnly ? style.border: ''}`} readOnly={readOnly} name='title' onChange={readOnly ? (e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value }) : null} value={oneToDo.title} />
+                <textarea className={`${style.textarea} ${readOnly ? style.border: ''}`} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
                 <div className={style.bottomIcon}>
-                  <MdEdit className={style.edit} />
+                  {readOnly ? <MdSave onClick={() => setReadOnly(!readOnly)} className={style.edit}/> :
+                  <MdEdit onClick={() => setReadOnly(!readOnly)} className={style.edit} />}
                   <MdDelete className={style.delete} />
                 </div>
               </div>
