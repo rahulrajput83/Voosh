@@ -187,11 +187,32 @@
   outline: none;
   height: 100%;
   outline-offset: 0;
-  background: rgb(27, 169, 76, 0.1);
   border: none;
 }
 
+.bottomIcon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  gap: 1rem;
+}
 
+.edit, .delete {
+  font-size: 1.1rem;
+  box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.1);
+  width: 2rem;
+  color: #fff;
+  border-radius: 0.2rem;
+  height: 2rem;
+  background: #1ba94c;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.delete {
+  background: #ff0000;
+}
 
 .icon {
   margin-left: auto;

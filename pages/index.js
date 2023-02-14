@@ -2,9 +2,9 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import style from '../styles/Home.module.css'
 import Navbar from '../Components/navbar'
-import { MdClose } from 'react-icons/md'
+import { MdClose, MdDelete, MdEdit } from 'react-icons/md'
 import { useRouter } from 'next/router'
-import {del} from '../Components/del'
+import { del } from '../Components/del'
 
 
 
@@ -104,11 +104,14 @@ export default function Home() {
                 <MdClose className={style.icon} onClick={() => setShowToDo(false)} />
               </div>
               <div className={style.data}>
-                <input value={oneToDo.title} />
-                <input value={oneToDo.desc} />
-                <textarea cols='10' value={oneToDo.desc} />
+                <input name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
+                <textarea name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
+                <div className={style.bottomIcon}>
+                  <MdEdit className={style.edit} />
+                  <MdDelete className={style.delete} />
+                </div>
               </div>
-              
+
             </>
             : null
           }
