@@ -60,14 +60,7 @@
 }
 
 .number {
-  width: 30px;
-  height: 30px;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  color: white;
-  background: rgb(27, 169, 76);
-  border-radius: 50%;
+  color: rgb(27, 169, 76);
 }
 
 .title {

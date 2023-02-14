@@ -7,37 +7,34 @@ import Navbar from '../Components/navbar'
 
 
 export default function Home() {
-  const [data, setData] = useState('');
+  const [data, setData] = useState([]);
   const [time, setTime] = useState('');
-  const [newToDo, setNewToDo] = useState('')
-  const [addBtnDisable, setAddBtnDisable] = useState(false)
-  const ToDo = [
-    {
-      title: 'This is first to Do, This is first to DoThis is first to DoThis is first to DoThis is first to DoThis is first to Do',
-      lastUpdate: time,
-      addedOn: 'jsfdgwygfju',
-    },
-    {
-      title: 'This is first to Do',
-      lastUpdate: time,
-      addedOn: 'jsfdgwygfju',
-    },
-    {
-      title: 'This is first to Do',
-      lastUpdate: time,
-      addedOn: 'jsfdgwygfju',
-    },
-    {
-      title: 'This is first to Do',
-      lastUpdate: time,
-      addedOn: 'jsfdgwygfju',
-    },
-    {
-      title: 'This is first to Do',
-      lastUpdate: time,
-      addedOn: 'jsfdgwygfju',
+  const [newToDo, setNewToDo] = useState('');
+  const [addBtnDisable, setAddBtnDisable] = useState(false);
+  const [access, setAccess] = useState('');
+
+  useEffect(() => {
+    const getAccess = localStorage.getItem('accessToken');
+    setAccess(getAccess);
+    if (getAccess) {
+      fetch('/api/getToDo', {
+        method: 'GET',
+        headers: {
+          access: getAccess
+        }
+      })
+        .then(res => res.json())
+        .then((res) => {
+          setData(res.data)
+        })
+        .catch(() => {
+          console.log('err')
+        })
     }
-  ]
+    else {
+      console.log('LogOut')
+    }
+  }, [])
 
   useEffect(() => {
     function getLocaltime() {
@@ -60,17 +57,17 @@ export default function Home() {
         <button onClick={() => setAddBtnDisable(!addBtnDisable)} disabled={addBtnDisable}>ADD</button>
       </div>
       <div className={style.toDo}>
-        {ToDo.length > 0 && ToDo.map((e, index) => {
+        {data.length > 0 && data.map((e, index) => {
           return (
             <Link href={`/todo/${e.addedOn}`} className={style.item} key={`item-${index}`}>
               <span className={style.number}>{index + 1}</span>
               <span className={style.title}>{e.title}</span>
-              
+
               <span className={style.lastUpdate}>{e.lastUpdate}</span>
             </Link>
           )
         })}
-        {ToDo.length === 0 && <span className={style.empty}>Your To Do list is empty. Add Now !!</span>}
+        {data.length === 0 && <span className={style.empty}>Your To Do list is empty. Add Now !!</span>}
       </div>
     </div>
   </>
