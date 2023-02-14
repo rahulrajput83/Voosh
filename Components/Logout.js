@@ -1,4 +1,4 @@
-export const logOut = () => {
+export default logOut = () => {
     localStorage.removeItem('accessToken');
     return '/login';
 }
