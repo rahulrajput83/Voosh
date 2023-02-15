@@ -47,7 +47,7 @@ export default function Home() {
 
       })
       .catch(() => {
-        console.log('err')
+        console.log(err)
       })
   }, [])
 
