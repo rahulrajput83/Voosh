@@ -4,6 +4,7 @@ import JWTAuth from '../../Utils/JWTAut';
 
 
 const AddToDoHandle = async (req, res) => {
+    const data = JSON.parse(req.body);
     if (req.method !== 'POST') {
         res.json({ message: 'Only POST requests allowed' })
     }
@@ -11,11 +12,11 @@ const AddToDoHandle = async (req, res) => {
         await MongoDBConnect();
         let date = new Date();
         date = await date.toLocaleString();
-        const addNewToDo = new ToDoModel({
+        const addNewToDo = await new ToDoModel({
             email: req.user.email,
             userId: req.user.id,
-            title: req.body.title,
-            desc: req.body.desc,
+            title: data.title,
+            desc: data.desc,
             lastUpdate: date
         })
         await addNewToDo.save();

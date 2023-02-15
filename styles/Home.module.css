@@ -191,7 +191,6 @@
 
 .edit, .delete {
   font-size: 1.1rem;
-  box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.1);
   width: 2.2rem;
   color: #fff;
   border-radius: 0.2rem;
@@ -199,6 +198,11 @@
   background: #1ba94c;
   cursor: pointer;
   padding: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.edit:hover, .delete:hover {
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.1);
 }
 
 .delete {

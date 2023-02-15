@@ -5,14 +5,13 @@ import Navbar from '../Components/navbar'
 import { MdClose, MdDelete, MdEdit, MdSave } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { del } from '../Components/del'
+import AddPost from '../Components/AddPost'
 
 
 
 export default function Home() {
   const router = useRouter();
   const [data, setData] = useState([]);
-  const [newToDo, setNewToDo] = useState('');
-  const [addBtnDisable, setAddBtnDisable] = useState(false);
   const [access, setAccess] = useState('');
   const [showToDo, setShowToDo] = useState(false);
   const [oneToDo, setOneToDo] = useState({
@@ -23,7 +22,9 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [readOnly, setReadOnly] = useState(true);
   const [singleLoading, setSingleLoading] = useState(false);
-  const [singleId, setSingleId] = useState('')
+  const [singleId, setSingleId] = useState('');
+  const [addPost, setAddPost] = useState(false)
+
 
   useEffect(() => {
     const getAccess = localStorage.getItem('accessToken');
@@ -83,10 +84,9 @@ export default function Home() {
     <div className={style.dashboard}>
       <div className={style.newToDo}>
         <div className={style.inputContainer}>
-          {addBtnDisable ? <div className={style.loader}></div> : null}
-          <input value={newToDo} onChange={(e) => setNewToDo(e.target.value)} type='text' placeholder='Enter New To Do' />
+          {/* {addBtnDisable ? <div className={style.loader}></div> : null} */}
+          <input readOnly onClick={() => setAddPost(true)} type='text' placeholder='Enter New To Do' />
         </div>
-        <button onClick={() => setAddBtnDisable(!addBtnDisable)} disabled={addBtnDisable}>ADD</button>
       </div>
 
       <div className={style.toDo}>
@@ -105,15 +105,15 @@ export default function Home() {
       {showToDo ?
         <div className={style.showToDo}>
           {singleLoading ? <div className={style.loading}></div> : null}
-          {oneToDo.title ?
+          {oneToDo.lastUpdate ?
             <>
               <div className={style.oneHead}>
                 <span className={style.oneLast}>Last Update: {oneToDo.lastUpdate}</span>
                 <MdClose className={style.icon} onClick={() => { setShowToDo(false); setReadOnly(true) }} />
               </div>
               <div className={style.data}>
-                <input className={`${style.input} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
-                <textarea className={`${style.textarea} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
+                <input placeholder='Title' className={`${style.input} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
+                <textarea placeholder='Description' className={`${style.textarea} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
                 <div className={style.bottomIcon}>
                   {!readOnly ? <MdSave onClick={() => setReadOnly(!readOnly)} className={style.edit} /> :
                     <MdEdit onClick={() => setReadOnly(!readOnly)} className={style.edit} />}
@@ -127,6 +127,8 @@ export default function Home() {
         </div>
         : null
       }
+      {addPost ? <AddPost access={access} addPost={addPost} setAddPost={setAddPost} />: null}
+
     </div>
   </>
 }
