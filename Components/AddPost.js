@@ -5,7 +5,7 @@ import style from '../styles/AddPost.module.css'
 import { del } from './del';
 
 
-function AddPost({ addPost, setAddPost, access }) {
+function AddPost({ getAllToDo, setAddPost, access }) {
     const router = useRouter();
     const [data, setData] = useState({
         title: '',
@@ -28,7 +28,7 @@ function AddPost({ addPost, setAddPost, access }) {
                 }
                 else if (res.message === 'Successfully Added') {
                     setAddPost(false)
-                    console.log('Success')
+                    getAllToDo();
                 }
 
             })

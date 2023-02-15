@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import style from '../styles/Home.module.css'
 import Navbar from '../Components/navbar'
 import { MdClose, MdDelete, MdEdit, MdSave } from 'react-icons/md'
@@ -25,10 +25,10 @@ export default function Home() {
   const [singleId, setSingleId] = useState('');
   const [addPost, setAddPost] = useState(false)
 
-
-  useEffect(() => {
+  const getAllToDo = useCallback(() => {
     const getAccess = localStorage.getItem('accessToken');
     setAccess(getAccess);
+    setLoaded(false)
     fetch('/api/getToDo', {
       method: 'GET',
       headers: {
@@ -50,6 +50,10 @@ export default function Home() {
         console.log('err')
       })
   }, [])
+
+  useEffect(() => {
+    getAllToDo();
+  }, [getAllToDo])
 
   useEffect(() => {
     if (showToDo && data && data.length > 0) {
@@ -75,6 +79,30 @@ export default function Home() {
     }
   }, [showToDo, data])
 
+  const handleDelete = () => {
+    if (showToDo && data && data.length > 0) {
+      fetch(`/api/delete?post=${singleId}`, {
+        method: 'GET',
+        headers: {
+          access: access
+        }
+      })
+        .then(res => res.json())
+        .then((res) => {
+          if (res.message === 'Token Expired') {
+            router.push(del())
+          }
+          else if (res.message === 'Success') {
+            setShowToDo(false);
+            getAllToDo();
+          }
+        })
+        .catch((err) => {
+          console.log('err')
+        })
+    }
+  }
+
   return <>
     <Head>
       <title>Home</title>
@@ -88,6 +116,7 @@ export default function Home() {
           <input readOnly onClick={() => setAddPost(true)} type='text' placeholder='Enter New To Do' />
         </div>
       </div>
+      {!loaded ? <div className={style.loading}></div> : null}
 
       <div className={style.toDo}>
         {data && data.length > 0 && data.map((e, index) => {
@@ -99,7 +128,7 @@ export default function Home() {
             </div>
           )
         })}
-        {!loaded ? <div className={style.loading}></div> : null}
+
         {data && loaded && data.length === 0 && <span className={style.empty}>Your To Do list is empty. Add Now !!</span>}
       </div>
       {showToDo ?
@@ -117,7 +146,7 @@ export default function Home() {
                 <div className={style.bottomIcon}>
                   {!readOnly ? <MdSave onClick={() => setReadOnly(!readOnly)} className={style.edit} /> :
                     <MdEdit onClick={() => setReadOnly(!readOnly)} className={style.edit} />}
-                  <MdDelete className={style.delete} />
+                  <MdDelete onClick={handleDelete} className={style.delete} />
                 </div>
               </div>
 
@@ -127,7 +156,7 @@ export default function Home() {
         </div>
         : null
       }
-      {addPost ? <AddPost access={access} addPost={addPost} setAddPost={setAddPost} />: null}
+      {addPost ? <AddPost getAllToDo={getAllToDo} access={access} addPost={addPost} setAddPost={setAddPost} /> : null}
 
     </div>
   </>
