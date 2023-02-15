@@ -4,6 +4,7 @@ import Input from "../Components/Input";
 import style from '../styles/Login.module.css'
 import { useRouter } from 'next/router'
 import Link from "next/link";
+import Navbar from "../Components/navbar";
 
 function login() {
     let router = useRouter()
@@ -57,7 +58,7 @@ function login() {
             <Head>
                 <title>Login</title>
             </Head>
-
+            <Navbar />
             <div className={style.LoginCard}>
                 <span className={style.heading}>Login</span>
                 <form className={style.Form} onSubmit={handleSubmit}>

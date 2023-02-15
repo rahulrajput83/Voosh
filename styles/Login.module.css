@@ -1,13 +1,12 @@
 .LoginCard {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 10%;
-    left: 50%;
     width: 95%;
     justify-content: center;
     align-items: center;
-    transform: translate(-50%, 0%);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
     box-sizing: border-box;
     box-shadow: 2px 2px 50px #e4e3e3,
              -2px -2px 100px #ffffff;

@@ -21,8 +21,9 @@ export default function Home() {
     lastUpdate: ''
   })
   const [loaded, setLoaded] = useState(false);
-  const [readOnly, setReadOnly] = useState(false)
-
+  const [readOnly, setReadOnly] = useState(true);
+  const [singleLoading, setSingleLoading] = useState(false);
+  const [singleId, setSingleId] = useState('')
 
   useEffect(() => {
     const getAccess = localStorage.getItem('accessToken');
@@ -38,7 +39,7 @@ export default function Home() {
         if (res.message === 'Token Expired') {
           router.push(del())
         }
-        else {
+        else if (res.message === 'Success') {
           setLoaded(true)
           setData(res.data);
         }
@@ -51,7 +52,7 @@ export default function Home() {
 
   useEffect(() => {
     if (showToDo && data && data.length > 0) {
-      fetch(`/api/oneToDo?post=63eb065944e7ef2b5280d45a`, {
+      fetch(`/api/oneToDo?post=${singleId}`, {
         method: 'GET',
         headers: {
           access: access
@@ -62,8 +63,9 @@ export default function Home() {
           if (res.message === 'Token Expired') {
             router.push(del())
           }
-          else {
-            setOneToDo({ ...oneToDo, title: res.data.title, desc: res.data.desc, lastUpdate: res.data.lastUpdate })
+          else if (res.message === 'Success') {
+            setOneToDo({ ...oneToDo, title: res.data.title, desc: res.data.desc, lastUpdate: res.data.lastUpdate });
+            setSingleLoading(false)
           }
         })
         .catch((err) => {
@@ -90,7 +92,7 @@ export default function Home() {
       <div className={style.toDo}>
         {data && data.length > 0 && data.map((e, index) => {
           return (
-            <div onClick={() => setShowToDo(true)} /* href={`/todo/${e._id}`} */ className={style.item} key={`item-${index}`}>
+            <div onClick={() => { setShowToDo(true); setSingleLoading(true); setSingleId(e._id) }} /* href={`/todo/${e._id}`} */ className={style.item} key={`item-${index}`}>
               <span className={style.number}>{index + 1}</span>
               <span className={style.title}>{e.title}</span>
               <span className={style.lastUpdate}>{e.lastUpdate}</span>
@@ -102,19 +104,19 @@ export default function Home() {
       </div>
       {showToDo ?
         <div className={style.showToDo}>
-          <div className={style.loading}></div>
+          {singleLoading ? <div className={style.loading}></div> : null}
           {oneToDo.title ?
             <>
               <div className={style.oneHead}>
                 <span className={style.oneLast}>Last Update: {oneToDo.lastUpdate}</span>
-                <MdClose className={style.icon} onClick={() => { setShowToDo(false); setReadOnly(false) }} />
+                <MdClose className={style.icon} onClick={() => { setShowToDo(false); setReadOnly(true) }} />
               </div>
               <div className={style.data}>
-                <input className={`${style.input} ${readOnly ? style.border: ''}`} readOnly={readOnly} name='title' onChange={readOnly ? (e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value }) : null} value={oneToDo.title} />
-                <textarea className={`${style.textarea} ${readOnly ? style.border: ''}`} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
+                <input className={`${style.input} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
+                <textarea className={`${style.textarea} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
                 <div className={style.bottomIcon}>
-                  {readOnly ? <MdSave onClick={() => setReadOnly(!readOnly)} className={style.edit}/> :
-                  <MdEdit onClick={() => setReadOnly(!readOnly)} className={style.edit} />}
+                  {!readOnly ? <MdSave onClick={() => setReadOnly(!readOnly)} className={style.edit} /> :
+                    <MdEdit onClick={() => setReadOnly(!readOnly)} className={style.edit} />}
                   <MdDelete className={style.delete} />
                 </div>
               </div>

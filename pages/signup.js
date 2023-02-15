@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Input from "../Components/Input";
+import Navbar from "../Components/navbar";
 import style from '../styles/Login.module.css'
 
 function SignUp() {
@@ -50,7 +51,7 @@ function SignUp() {
             <Head>
                 <title>Register</title>
             </Head>
-
+            <Navbar />
             <div className={style.LoginCard}>
                 <span className={style.heading}>Register</span>
                 <form className={style.Form} onSubmit={handleSubmit}>
