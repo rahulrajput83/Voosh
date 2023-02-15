@@ -32,7 +32,6 @@ function login() {
             })
                 .then((res) => res.json())
                 .then((res) => {
-                    setLoginDisable(false);
                     if (res.message === 'User Login...') {
                         localStorage.setItem('accessToken', res.acccessToken);
                         router.push('/')
@@ -40,6 +39,8 @@ function login() {
                     else {
                         setMessage(res.message);
                     }
+                    setLoginDisable(false);
+                    
                 })
                 .catch((err) => {
                     console.log(err)
