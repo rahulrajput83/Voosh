@@ -103,6 +103,33 @@ export default function Home() {
     }
   }
 
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    if (showToDo && data && data.length > 0) {
+      fetch(`/api/edit`, {
+        method: 'POST',
+        headers: {
+          access: access
+        },
+        body: JSON.stringify({ id: singleId, title: oneToDo.title, desc: oneToDo.desc })
+      })
+        .then(res => res.json())
+        .then((res) => {
+          if (res.message === 'Token Expired') {
+            router.push(del())
+          }
+          else if (res.message === 'Success') {
+            setShowToDo(false);
+            getAllToDo();
+            setReadOnly(!readOnly)
+          }
+        })
+        .catch((err) => {
+          console.log('err')
+        })
+    }
+  }
+
   return <>
     <Head>
       <title>Home</title>
@@ -141,13 +168,19 @@ export default function Home() {
                 <MdClose className={style.icon} onClick={() => { setShowToDo(false); setReadOnly(true) }} />
               </div>
               <div className={style.data}>
-                <input placeholder='Title' className={`${style.input} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
-                <textarea placeholder='Description' className={`${style.textarea} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
-                <div className={style.bottomIcon}>
-                  {!readOnly ? <MdSave onClick={() => setReadOnly(!readOnly)} className={style.edit} /> :
-                    <MdEdit onClick={() => setReadOnly(!readOnly)} className={style.edit} />}
-                  <MdDelete onClick={handleDelete} className={style.delete} />
-                </div>
+                <form onSubmit={handleUpdate}>
+                  <input required placeholder='Title' className={`${style.input} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
+                  <textarea placeholder='Description' className={`${style.textarea} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
+                  <div className={style.bottomIcon}>
+                    {!readOnly ?
+                      <button className={style.edit} type='submit'>
+                        <MdSave  />
+                      </button> :
+                      <MdEdit onClick={() => setReadOnly(!readOnly)} className={style.edit} />}
+                    <MdDelete onClick={handleDelete} className={style.delete} />
+                  </div>
+                </form>
+
               </div>
 
             </>

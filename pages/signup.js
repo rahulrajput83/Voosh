@@ -1,11 +1,13 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Input from "../Components/Input";
 import Navbar from "../Components/navbar";
 import style from '../styles/Login.module.css'
 
 function SignUp() {
+    const router = useRouter();
     const [userData, setUserData] = useState({
         email: '',
         password: '',
@@ -45,6 +47,12 @@ function SignUp() {
         setMessage('')
     }, [userData])
 
+    useEffect(() => {
+        const getAccess = localStorage.getItem('accessToken');
+        if(getAccess){
+            router.push('/')
+        }
+      }, [])
 
     return (
         <>

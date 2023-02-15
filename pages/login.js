@@ -7,7 +7,7 @@ import Link from "next/link";
 import Navbar from "../Components/navbar";
 
 function login() {
-    let router = useRouter()
+    let router = useRouter();
     const [userData, setUserData] = useState({
         email: '',
         password: '',
@@ -52,6 +52,13 @@ function login() {
     useEffect(() => {
         setMessage('')
     }, [userData])
+
+    useEffect(() => {
+        const getAccess = localStorage.getItem('accessToken');
+        if(getAccess){
+            router.push('/')
+        }
+      }, [])
 
     return (
         <>
