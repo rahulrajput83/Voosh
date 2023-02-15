@@ -106,12 +106,14 @@ export default function Home() {
   const handleUpdate = (e) => {
     e.preventDefault();
     if (showToDo && data && data.length > 0) {
+      let date = new Date();
+      date = date.toLocaleString();
       fetch(`/api/edit`, {
         method: 'POST',
         headers: {
           access: access
         },
-        body: JSON.stringify({ id: singleId, title: oneToDo.title, desc: oneToDo.desc })
+        body: JSON.stringify({ id: singleId, title: oneToDo.title, desc: oneToDo.desc, time: date })
       })
         .then(res => res.json())
         .then((res) => {

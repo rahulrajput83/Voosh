@@ -9,10 +9,7 @@ const editToDo = async (req, res) => {
     try {
         const data = JSON.parse(req.body)
         await MongoDBConnect();
-        let date = new Date();
-        date = await date.toLocaleString();
-        console.log('id', data.id, 'title',data.title, 'desc', data.desc)
-        await ToDoModel.updateOne({ _id: data.id }, { $set: { title: data.title, desc: data.desc, lastUpdate: date } });
+        await ToDoModel.updateOne({ _id: data.id }, { $set: { title: data.title, desc: data.desc, lastUpdate: data.time } });
         res.json({ message: 'Success' })
     }
     catch (error) {

@@ -14,12 +14,15 @@ function AddPost({ getAllToDo, setAddPost, access }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        let date = new Date();
+        date = date.toLocaleString();
+
         fetch('/api/newToDo', {
             method: 'POST',
             headers: {
                 access: access
             },
-            body: JSON.stringify({ title: data.title, desc: data.desc })
+            body: JSON.stringify({ title: data.title, desc: data.desc, time: date })
         })
             .then(res => res.json())
             .then((res) => {

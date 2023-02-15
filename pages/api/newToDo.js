@@ -10,14 +10,12 @@ const AddToDoHandle = async (req, res) => {
     }
     try {
         await MongoDBConnect();
-        let date = new Date();
-        date = await date.toLocaleString();
         const addNewToDo = await new ToDoModel({
             email: req.user.email,
             userId: req.user.id,
             title: data.title,
             desc: data.desc,
-            lastUpdate: date
+            lastUpdate: data.time
         })
         await addNewToDo.save();
         res.json({ message: 'Successfully Added' })
