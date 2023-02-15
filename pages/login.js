@@ -43,7 +43,7 @@ function login() {
                     
                 })
                 .catch((err) => {
-                    console.log(err)
+                    setMessage('Something went wrong, please try again.');
                     setLoginDisable(false)
                 })
         }
