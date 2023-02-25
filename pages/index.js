@@ -56,6 +56,13 @@ export default function Home() {
   }, [getAllToDo])
 
   useEffect(() => {
+    const getAccess = localStorage.getItem('accessToken');
+    if (!getAccess) {
+      router.push('/login')
+    }
+  }, [])
+
+  useEffect(() => {
     if (showToDo && data && data.length > 0) {
       fetch(`/api/oneToDo?post=${singleId}`, {
         method: 'GET',
@@ -145,7 +152,7 @@ export default function Home() {
           <input readOnly onClick={() => setAddPost(true)} type='text' placeholder='Enter New To Do' />
         </div>
       </div>
-      {!loaded ? <div className={style.loading}></div> : null}
+      {!loaded ? <div className={style.loader}></div> : null}
 
       <div className={style.toDo}>
         {data && data.length > 0 && data.map((e, index) => {
@@ -163,7 +170,7 @@ export default function Home() {
       {showToDo ?
         <div className={style.showToDo}>
           {singleLoading ? <div className={style.loading}></div> : null}
-          {oneToDo.lastUpdate ?
+          {oneToDo.lastUpdate && !singleLoading ?
             <>
               <div className={style.oneHead}>
                 <span className={style.oneLast}>Last Update: {oneToDo.lastUpdate}</span>
@@ -176,7 +183,7 @@ export default function Home() {
                   <div className={style.bottomIcon}>
                     {!readOnly ?
                       <button className={style.edit} type='submit'>
-                        <MdSave  />
+                        <MdSave />
                       </button> :
                       <MdEdit onClick={() => setReadOnly(!readOnly)} className={style.edit} />}
                     <MdDelete onClick={handleDelete} className={style.delete} />

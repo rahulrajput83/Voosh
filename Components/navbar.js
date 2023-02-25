@@ -19,7 +19,7 @@ function Navbar() {
   return (
     <nav className={style.nav}>
       <Link href='/' className={style.Link}>TO DO</Link>
-      {access ? <button onClick={handleLogout} className={style.logout}>Logout</button>: <button className={style.logout}>Login</button>}
+      {access ? <button onClick={handleLogout} className={style.logout}>Logout</button> : <button className={style.logout}>Login</button>}
     </nav>
   )
 }

@@ -74,12 +74,15 @@
 }
 
 .loader {
-  position: absolute;
-  right: 2%;
+  margin-top: 1rem;
 }
 
 .loading {
   margin: 1rem auto;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  right: 50%;
 }
 
 @keyframes spin {
