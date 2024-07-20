@@ -41,14 +41,20 @@ function AddPost({ getAllToDo, setAddPost, access }) {
     }
     return (
         <div className={style.AddPost}>
-            <span className={style.title}>Add New To Do</span>
-            <MdClose onClick={() => setAddPost(false)} className={style.close} />
+            <span className={style.title}>Add Task</span>
             <form onSubmit={handleSubmit}>
+                <span className={style.textStyle}>Title</span>
                 <input required onChange={(e) => setData({ ...data, title: e.target.value })} className={style.input} placeholder='Enter Title' />
+                <span className={style.textStyle}>Description</span>
                 <textarea onChange={(e) => setData({ ...data, desc: e.target.value })} className={style.textarea} placeholder='Enter Description' />
-                <button type='submit' className={style.save}>
-                    <MdSave />
-                </button>
+                <div className={style.addTaskBtn}>
+                    <button type='submit' className={style.save}>
+                        Add
+                    </button>
+                    <button onClick={() => setAddPost(false)} className={style.cancel}>
+                        Cancel
+                    </button>
+                </div>
             </form>
 
         </div>

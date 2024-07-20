@@ -15,7 +15,8 @@ const AddToDoHandle = async (req, res) => {
             userId: req.user.id,
             title: data.title,
             desc: data.desc,
-            lastUpdate: data.time
+            createdAt: data.time,
+            taskCategory: 1
         })
         await addNewToDo.save();
         res.json({ message: 'Successfully Added' })

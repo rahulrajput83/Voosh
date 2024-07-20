@@ -8,8 +8,6 @@
     left: 50%;
     transform: translate(-50%, 0);
     box-sizing: border-box;
-    box-shadow: 2px 2px 50px #e4e3e3,
-             -2px -2px 100px #ffffff;
     padding: 2rem 1rem;
 }
 
@@ -17,6 +15,8 @@
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
+    width: 100%;
+    color: #066bc9;
 }
 
 .LoginCard .Form {
@@ -25,12 +25,18 @@
     width: 100%;
 }
 
+.Form {
+    border: 0.15rem solid #066bc9;
+    padding: 1.5rem;
+    border-radius: 0.35rem;
+}
+
 .LoginCard .input {
     width: 100%;
     padding: 0.6rem 1rem;
     outline: none;
-    border-radius: 2rem;
-    border: 0.15rem solid rgb(27, 169, 76);
+    border-radius: 0.15rem;
+    border: 0.1rem solid gray;
     margin-top: 1rem;
 }
 
@@ -38,7 +44,7 @@
     width: 100%;
     text-decoration: none;
     margin: 2rem auto auto auto;
-    border: 0.15rem solid #1ba94c;
+    border: 0.15rem solid #066bc9;
     background: #1ba94c;
     padding: 0.4rem 1rem;
     color: white;
@@ -49,6 +55,36 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+}
+
+.Button, .Link {
+    width: 100% !important;
+    margin: 0;
+    border: 0 !important;
+    background: #066bc9 !important;
+}
+
+.Button1 {
+    width: fit-content;
+    margin: auto;
+    border: 0 ;
+    background: #066bc9;
+    padding: 0.5rem;
+    color: white;
+    border-radius: 0.2rem
+}
+
+.Link {
+    width: fit-content !important;
+    background: none !important;
+    padding: 0 !important;
+    margin: 1rem 0 !important;
+    color: #066bc9 !important;
+}
+
+.btnGroup {
+    justify-content: center !important;
+    align-items: center !important;
 }
 
 .LoginCard .btnGroup {
@@ -79,11 +115,6 @@
     100% {
         transform: rotate(360deg);
     }
-}
-
-.LoginCard .Button:hover {
-    background: white;
-    color: #1ba94c;
 }
 
 .LoginCard .error {

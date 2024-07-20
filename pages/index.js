@@ -17,19 +17,23 @@ export default function Home() {
   const [oneToDo, setOneToDo] = useState({
     title: '',
     desc: '',
-    lastUpdate: ''
+    createdAt: ''
   })
   const [loaded, setLoaded] = useState(false);
   const [readOnly, setReadOnly] = useState(true);
   const [singleLoading, setSingleLoading] = useState(false);
   const [singleId, setSingleId] = useState('');
-  const [addPost, setAddPost] = useState(false)
+  const [addPost, setAddPost] = useState(false);
+  const [search, setSearch] = useState({
+    field: '',
+    order: 'recent'
+  });
 
-  const getAllToDo = useCallback(() => {
+  const getAllToDo = () => {
     const getAccess = localStorage.getItem('accessToken');
     setAccess(getAccess);
     setLoaded(false)
-    fetch('/api/getToDo', {
+    fetch(`/api/getToDo?search=${search.field}&order=${search.order}`, {
       method: 'GET',
       headers: {
         access: getAccess
@@ -49,11 +53,11 @@ export default function Home() {
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }
 
   useEffect(() => {
     getAllToDo();
-  }, [getAllToDo])
+  }, [])
 
   useEffect(() => {
     const getAccess = localStorage.getItem('accessToken');
@@ -62,52 +66,48 @@ export default function Home() {
     }
   }, [])
 
-  useEffect(() => {
-    if (showToDo && data && data.length > 0) {
-      fetch(`/api/oneToDo?post=${singleId}`, {
-        method: 'GET',
-        headers: {
-          access: access
+  const getOneTask = () => {
+    fetch(`/api/oneToDo?post=${singleId}`, {
+      method: 'GET',
+      headers: {
+        access: access
+      }
+    })
+      .then(res => res.json())
+      .then((res) => {
+        if (res.message === 'Token Expired') {
+          router.push(del())
+        }
+        else if (res.message === 'Success') {
+          setOneToDo({ ...oneToDo, title: res.data.title, desc: res.data.desc, lastUpdate: res.data.lastUpdate });
+          setSingleLoading(false)
         }
       })
-        .then(res => res.json())
-        .then((res) => {
-          if (res.message === 'Token Expired') {
-            router.push(del())
-          }
-          else if (res.message === 'Success') {
-            setOneToDo({ ...oneToDo, title: res.data.title, desc: res.data.desc, lastUpdate: res.data.lastUpdate });
-            setSingleLoading(false)
-          }
-        })
-        .catch((err) => {
-          console.log('err')
-        })
-    }
-  }, [showToDo, data])
+      .catch((err) => {
+        console.log('err')
+      })
+  }
 
-  const handleDelete = () => {
-    if (showToDo && data && data.length > 0) {
-      fetch(`/api/delete?post=${singleId}`, {
-        method: 'GET',
-        headers: {
-          access: access
+  const handleDelete = (id) => {
+    fetch(`/api/delete?post=${id}`, {
+      method: 'GET',
+      headers: {
+        access: access
+      }
+    })
+      .then(res => res.json())
+      .then((res) => {
+        if (res.message === 'Token Expired') {
+          router.push(del())
+        }
+        else if (res.message === 'Success') {
+          setShowToDo(false);
+          getAllToDo();
         }
       })
-        .then(res => res.json())
-        .then((res) => {
-          if (res.message === 'Token Expired') {
-            router.push(del())
-          }
-          else if (res.message === 'Success') {
-            setShowToDo(false);
-            getAllToDo();
-          }
-        })
-        .catch((err) => {
-          console.log('err')
-        })
-    }
+      .catch((err) => {
+        console.log('err')
+      })
   }
 
   const handleUpdate = (e) => {
@@ -139,6 +139,14 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    getAllToDo()
+  }, [search])
+
+  useEffect(() => {
+    if (singleId) getOneTask();
+  }, [singleId, readOnly])
+
   return <>
     <Head>
       <title>Home</title>
@@ -146,47 +154,135 @@ export default function Home() {
     <Navbar />
 
     <div className={style.dashboard}>
-      <div className={style.newToDo}>
-        <div className={style.inputContainer}>
-          {/* {addBtnDisable ? <div className={style.loader}></div> : null} */}
-          <input readOnly onClick={() => setAddPost(true)} type='text' placeholder='Enter New To Do' />
+      <button className={style.addNewTask} onClick={() => setAddPost(true)}>Add Task</button>
+      <div className={style.filterCard}>
+        <div className={style.search}>
+          <span>Search</span>
+          <input name='field' onChange={(e) => setSearch({ ...search, [e.target.name]: e.target.value })} value={search.field} placeholder='Search...' />
+        </div>
+        <div className={style.search}>
+          <span>Sort By</span>
+          <select name='order' value={search.order} onChange={(e) => setSearch({ ...search, [e.target.name]: e.target.value })}>
+            <option value='recent'>Recent</option>
+            <option value='oldest'>Oldest</option>
+          </select>
         </div>
       </div>
       {!loaded ? <div className={style.loader}></div> : null}
 
-      <div className={style.toDo}>
-        {data && data.length > 0 && data.map((e, index) => {
-          return (
-            <div onClick={() => { setShowToDo(true); setSingleLoading(true); setSingleId(e._id) }} /* href={`/todo/${e._id}`} */ className={style.item} key={`item-${index}`}>
-              <span className={style.number}>{index + 1}</span>
-              <span className={style.title}>{e.title}</span>
-              <span className={style.lastUpdate}>{e.lastUpdate}</span>
-            </div>
-          )
-        })}
-
-        {data && loaded && data.length === 0 && <span className={style.empty}>Your To Do list is empty. Add Now !!</span>}
+      <div className={style.taskCard}>
+        <div className={style.toDo}>
+          <span className={style.taskTitle}>TO DO</span>
+          {data && data.length > 0 && data.map((e, index) => {
+            return (
+              <div className={style.item} key={`item-${index}`}>
+                <span className={style.title}>{e.title}</span>
+                <span className={style.desc}>{e.desc}</span>
+                <span className={style.lastUpdate}>Created At: {e.createdAt}</span>
+                <div className={style.btnGroup}>
+                  <button className={style.deleteBtn} onClick={() => { handleDelete(e._id); }}>
+                    Delete
+                  </button>
+                  <button className={style.editBtn} onClick={() => { setReadOnly(false); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
+                    Edit
+                  </button>
+                  <button className={style.viewBtn} onClick={() => { setReadOnly(true); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
+                    View Details
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+          {data && data.length > 0 && data.map((e, index) => {
+            return (
+              <div className={style.item} key={`item-${index}`}>
+                <span className={style.title}>{e.title}</span>
+                <span className={style.desc}>{e.desc}</span>
+                <span className={style.lastUpdate}>Created At: {e.createdAt}</span>
+                <div className={style.btnGroup}>
+                  <button className={style.deleteBtn} onClick={() => { handleDelete(e._id); }}>
+                    Delete
+                  </button>
+                  <button className={style.editBtn} onClick={() => { setReadOnly(false); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
+                    Edit
+                  </button>
+                  <button className={style.viewBtn} onClick={() => { setReadOnly(true); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
+                    View Details
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div className={style.toDo}>
+          <span className={style.taskTitle}>IN PROGRESS</span>
+          {data && data.length > 0 && data.map((e, index) => {
+            return (
+              <div className={style.item} key={`item-${index}`}>
+                <span className={style.title}>{e.title}</span>
+                <span className={style.desc}>{e.desc}</span>
+                <span className={style.lastUpdate}>Created At: {e.createdAt}</span>
+                <div className={style.btnGroup}>
+                  <button className={style.deleteBtn} onClick={() => { handleDelete(e._id); }}>
+                    Delete
+                  </button>
+                  <button className={style.editBtn} onClick={() => { setReadOnly(false); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
+                    Edit
+                  </button>
+                  <button className={style.viewBtn} onClick={() => { setReadOnly(true); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
+                    View Details
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div className={style.toDo}>
+          <span className={style.taskTitle}>DONE</span>
+          {data && data.length > 0 && data.map((e, index) => {
+            return (
+              <div className={style.item} key={`item-${index}`}>
+                <span className={style.title}>{e.title}</span>
+                <span className={style.desc}>{e.desc}</span>
+                <span className={style.lastUpdate}>Created At: {e.createdAt}</span>
+                <div className={style.btnGroup}>
+                  <button className={style.deleteBtn} onClick={() => { handleDelete(e._id) }}>
+                    Delete
+                  </button>
+                  <button className={style.editBtn} onClick={() => { setReadOnly(false); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
+                    Edit
+                  </button>
+                  <button className={style.viewBtn} onClick={() => { setReadOnly(true); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
+                    View Details
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
+
+      {data && loaded && data.length === 0 && <span className={style.empty}>Your Task list is empty. Add Now !!</span>}
       {showToDo ?
         <div className={style.showToDo}>
-          {singleLoading ? <div className={style.loading}></div> : null}
-          {oneToDo.lastUpdate && !singleLoading ?
+          {!oneToDo ? <div className={style.loading}></div> : null}
+          {oneToDo ?
             <>
-              <div className={style.oneHead}>
-                <span className={style.oneLast}>Last Update: {oneToDo.lastUpdate}</span>
-                <MdClose className={style.icon} onClick={() => { setShowToDo(false); setReadOnly(true) }} />
-              </div>
               <div className={style.data}>
+                <span>{readOnly ? 'Task Details' : 'Edit Task'}</span>
                 <form onSubmit={handleUpdate}>
-                  <input required placeholder='Title' className={`${style.input} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
-                  <textarea placeholder='Description' className={`${style.textarea} ${!readOnly ? style.border : ''}`} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
+                  <span className={style.textStyle}>Title</span>
+                  <input required placeholder='Title' className={readOnly ? style.input : style.borderInput} readOnly={readOnly} name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
+                  <span className={style.textStyle}>Description</span>
+                  <textarea placeholder='Description' className={readOnly ? style.textarea : style.borderTextBox} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
                   <div className={style.bottomIcon}>
-                    {!readOnly ?
+                    {!readOnly &&
                       <button className={style.edit} type='submit'>
-                        <MdSave />
-                      </button> :
-                      <MdEdit onClick={() => setReadOnly(!readOnly)} className={style.edit} />}
-                    <MdDelete onClick={handleDelete} className={style.delete} />
+                        Save
+                      </button>}
+                    <button className={readOnly ? style.close : style.cancel} onClick={() => { setShowToDo(false); setReadOnly(true) }}>
+                      {readOnly ? 'Close' : 'Cancel'}
+                    </button>
                   </div>
                 </form>
 
@@ -200,6 +296,6 @@ export default function Home() {
       }
       {addPost ? <AddPost getAllToDo={getAllToDo} access={access} addPost={addPost} setAddPost={setAddPost} /> : null}
 
-    </div>
+    </div >
   </>
 }

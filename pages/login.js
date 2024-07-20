@@ -40,7 +40,7 @@ function login() {
                         setMessage(res.message);
                     }
                     setLoginDisable(false);
-                    
+
                 })
                 .catch((err) => {
                     setMessage('Something went wrong, please try again.');
@@ -56,10 +56,10 @@ function login() {
 
     useEffect(() => {
         const getAccess = localStorage.getItem('accessToken');
-        if(getAccess){
+        if (getAccess) {
             router.push('/')
         }
-      }, [])
+    }, [])
 
     return (
         <>
@@ -70,19 +70,23 @@ function login() {
             <div className={style.LoginCard}>
                 <span className={style.heading}>Login</span>
                 <form className={style.Form} onSubmit={handleSubmit}>
-                    <Input name='email' className={style.input} placeholder='Enter Email Address' type='email' userData={userData} setUserData={setUserData} />
-                    <Input name='password' className={style.input} placeholder='Enter Password' type='password' userData={userData} setUserData={setUserData} />
+                    <Input name='email' className={style.input} placeholder='Email' type='email' userData={userData} setUserData={setUserData} />
+                    <Input name='password' className={style.input} placeholder='Password' type='password' userData={userData} setUserData={setUserData} />
+                    <button disabled={loginDisable} className={style.Button} type="submit">
+                        {loginDisable ? <div className={style.loader}></div> : null}
+                        <span>Login</span>
+                    </button>
                     <div className={style.btnGroup}>
-                        <button disabled={loginDisable} className={style.Button} type="submit">
-                            {loginDisable ? <div className={style.loader}></div> : null}
-                            <span>Login</span>
-                        </button>
+                        <span>Don't have an account?</span>
                         <Link href='/signup' className={style.Link}>
                             <span>
-                                Register
+                                Signup
                             </span>
                         </Link>
                     </div>
+                    <button className={style.Button1}>
+                        <span>Login with Google</span>
+                    </button>
                 </form>
                 <span className={style.error}>{message}</span>
             </div>

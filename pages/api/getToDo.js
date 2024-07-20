@@ -9,7 +9,19 @@ const GetToDoHandle = async (req, res) => {
     }
     try {
         await MongoDBConnect();
-        const ToDo = await ToDoModel.find({email: req.user.email});
+        const searchTerm = req.query.search || '';
+        const ToDo = await ToDoModel.find({
+            email: req.user.email,
+            title: { $regex: searchTerm, $options: 'i' }
+        });
+        if(ToDo.length > 0) {
+            if(req.query.order == 'recent') {
+                ToDo.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            }
+            else {
+                ToDo.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+            }
+        }
         res.json({ message: 'Success', data: ToDo})
     }
     catch (error) {

@@ -8,6 +8,21 @@ const handler = async (req, res) => {
         res.json({ message: 'Only POST requests allowed' })
     }
     try {
+        if(!req.body.firstName){
+            res.json({ message: 'First Name required' })
+        }
+        if(!req.body.lastName){
+            res.json({ message: 'Last Name required' })
+        }
+        if(!req.body.email){
+            res.json({ message: 'email required' })
+        }
+        if(!req.body.password){
+            res.json({ message: 'Password required' })
+        }
+        if(req.body.password !== req.body.confirmPassword){
+            res.json({ message: "Password doesn't matched" })
+        }
         await MongoDBConnect();
         const responseData = await RegisterModel.findOne({ email: req.body.email })
         if (responseData) {
@@ -15,6 +30,8 @@ const handler = async (req, res) => {
         }
         else {
             const createNewUser = new RegisterModel({
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
                 email: req.body.email,
                 password: bcrypt.hashSync(req.body.password, 1)
             })
@@ -23,6 +40,7 @@ const handler = async (req, res) => {
         }
     }
     catch (error) {
+        console.log(error)
         res.json({ message: 'Error, Please try again...' })
     }
 }

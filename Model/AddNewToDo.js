@@ -5,7 +5,8 @@ const ToDo = new mongoose.Schema({
     userId: String,
     title: String,
     desc: String,
-    lastUpdate: String
+    createdAt: String,
+    taskCategory: Number
 });
 
 const ToDoModel = mongoose.models.ToDo || mongoose.model('ToDo', ToDo);
