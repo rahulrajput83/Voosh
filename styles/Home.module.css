@@ -107,6 +107,10 @@
   margin: auto;
 }
 
+.emptyState {
+  font-size: 0.9rem;
+}
+
 .loader {
   margin-top: 1rem;
 }

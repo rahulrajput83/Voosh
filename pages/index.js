@@ -198,10 +198,10 @@ export default function Home() {
           </select>
         </div>
       </div>
-      {!loaded ? <div className={style.loader}></div> : null}
+      {!loaded && <div className={style.loader}></div>}
 
       {/* Show task popup */}
-      {showToDo ?
+      {showToDo &&
         <div className={style.showToDo}>
           {!oneToDo ? <div className={style.loading}></div> : null}
           {oneToDo ?
@@ -230,12 +230,11 @@ export default function Home() {
             : null
           }
         </div>
-        : null
       }
       {/* Common all task component */}
-      {data && data.length && <DragDrop setData={setData} data={data} handleDelete={handleDelete} setReadOnly={setReadOnly} setShowToDo={setShowToDo} setSingleLoading={setSingleLoading} setSingleId={setSingleId} updateTaskCategory={updateTaskCategory} />}
+      {data && data.length > 0 && <DragDrop setData={setData} data={data} handleDelete={handleDelete} setReadOnly={setReadOnly} setShowToDo={setShowToDo} setSingleLoading={setSingleLoading} setSingleId={setSingleId} updateTaskCategory={updateTaskCategory} />}
       {/* Add new task popup */}
-      {addPost ? <AddPost getAllToDo={getAllToDo} access={access} addPost={addPost} setAddPost={setAddPost} /> : null}
+      {addPost && <AddPost getAllToDo={getAllToDo} access={access} addPost={addPost} setAddPost={setAddPost} />}
 
     </div >
   </>
