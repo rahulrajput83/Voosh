@@ -6,14 +6,15 @@ import { useRouter } from 'next/router'
 import { PiNotepadBold } from "react-icons/pi";
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react';
-import userImg from 'image.png'
+
+const defaultUserImg = '/image.png'
 
 /* Common navbar component */
 function Navbar() {
   const router = useRouter()
   const pathname = usePathname()
   const [access, setAccess] = useState('')
-  const [imgUrl, setImgUrl] = useState(userImg)
+  const [imgUrl, setImgUrl] = useState(defaultUserImg)
   /* Get the accessToken from local storage */
   useEffect(() => {
     const getAccess = localStorage.getItem('accessToken');
@@ -47,10 +48,10 @@ function Navbar() {
         }
         else if (res.message === 'Success') {
           if(res.data && res.data.imgUrl) {
-            setImgUrl(res.data.imgUrl)
+            setImgUrl(result.data?.imgUrl || defaultUserImg)
           }
           else{
-            setImgUrl(userImg)
+            setImgUrl(defaultUserImg)
           }
         }
       })
