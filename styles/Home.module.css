@@ -180,7 +180,7 @@
   box-sizing: border-box;
   z-index: 2;
   padding: 0.8rem;
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   transition: all 0.5s ease-in-out;

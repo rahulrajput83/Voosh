@@ -6,6 +6,7 @@ import { MdClose, MdDelete, MdEdit, MdSave } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { del } from '../Components/del'
 import AddPost from '../Components/AddPost'
+import DragDrop from '../Components/DragDrop'
 
 
 
@@ -170,98 +171,6 @@ export default function Home() {
       </div>
       {!loaded ? <div className={style.loader}></div> : null}
 
-      <div className={style.taskCard}>
-        <div className={style.toDo}>
-          <span className={style.taskTitle}>TO DO</span>
-          {data && data.length > 0 && data.map((e, index) => {
-            return (
-              <div className={style.item} key={`item-${index}`}>
-                <span className={style.title}>{e.title}</span>
-                <span className={style.desc}>{e.desc}</span>
-                <span className={style.lastUpdate}>Created At: {e.createdAt}</span>
-                <div className={style.btnGroup}>
-                  <button className={style.deleteBtn} onClick={() => { handleDelete(e._id); }}>
-                    Delete
-                  </button>
-                  <button className={style.editBtn} onClick={() => { setReadOnly(false); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
-                    Edit
-                  </button>
-                  <button className={style.viewBtn} onClick={() => { setReadOnly(true); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
-                    View Details
-                  </button>
-                </div>
-              </div>
-            )
-          })}
-          {data && data.length > 0 && data.map((e, index) => {
-            return (
-              <div className={style.item} key={`item-${index}`}>
-                <span className={style.title}>{e.title}</span>
-                <span className={style.desc}>{e.desc}</span>
-                <span className={style.lastUpdate}>Created At: {e.createdAt}</span>
-                <div className={style.btnGroup}>
-                  <button className={style.deleteBtn} onClick={() => { handleDelete(e._id); }}>
-                    Delete
-                  </button>
-                  <button className={style.editBtn} onClick={() => { setReadOnly(false); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
-                    Edit
-                  </button>
-                  <button className={style.viewBtn} onClick={() => { setReadOnly(true); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
-                    View Details
-                  </button>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-        <div className={style.toDo}>
-          <span className={style.taskTitle}>IN PROGRESS</span>
-          {data && data.length > 0 && data.map((e, index) => {
-            return (
-              <div className={style.item} key={`item-${index}`}>
-                <span className={style.title}>{e.title}</span>
-                <span className={style.desc}>{e.desc}</span>
-                <span className={style.lastUpdate}>Created At: {e.createdAt}</span>
-                <div className={style.btnGroup}>
-                  <button className={style.deleteBtn} onClick={() => { handleDelete(e._id); }}>
-                    Delete
-                  </button>
-                  <button className={style.editBtn} onClick={() => { setReadOnly(false); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
-                    Edit
-                  </button>
-                  <button className={style.viewBtn} onClick={() => { setReadOnly(true); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
-                    View Details
-                  </button>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-        <div className={style.toDo}>
-          <span className={style.taskTitle}>DONE</span>
-          {data && data.length > 0 && data.map((e, index) => {
-            return (
-              <div className={style.item} key={`item-${index}`}>
-                <span className={style.title}>{e.title}</span>
-                <span className={style.desc}>{e.desc}</span>
-                <span className={style.lastUpdate}>Created At: {e.createdAt}</span>
-                <div className={style.btnGroup}>
-                  <button className={style.deleteBtn} onClick={() => { handleDelete(e._id) }}>
-                    Delete
-                  </button>
-                  <button className={style.editBtn} onClick={() => { setReadOnly(false); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
-                    Edit
-                  </button>
-                  <button className={style.viewBtn} onClick={() => { setReadOnly(true); setShowToDo(true); setSingleLoading(true); setSingleId(e._id); }}>
-                    View Details
-                  </button>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
       {data && loaded && data.length === 0 && <span className={style.empty}>Your Task list is empty. Add Now !!</span>}
       {showToDo ?
         <div className={style.showToDo}>
@@ -294,6 +203,7 @@ export default function Home() {
         </div>
         : null
       }
+      {data && data.length && <DragDrop setData={setData} data={data} handleDelete={handleDelete} setReadOnly={setReadOnly} setShowToDo={setShowToDo} setSingleLoading={setSingleLoading} setSingleId={setSingleId} />}
       {addPost ? <AddPost getAllToDo={getAllToDo} access={access} addPost={addPost} setAddPost={setAddPost} /> : null}
 
     </div >
