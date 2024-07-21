@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { PiNotepadBold } from "react-icons/pi";
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react';
-import userImg from '/image.png'
+import userImg from 'image.png'
 
 /* Common navbar component */
 function Navbar() {
