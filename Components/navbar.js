@@ -68,7 +68,7 @@ function Navbar() {
       </Link>
       {access ?
         <div className={style.userRight}>
-          <Image className={style.userImage} src={imgUrl} alt='user profile' />
+          <img className={style.userImage} src={imgUrl} alt='user profile' />
           <button onClick={handleLogout} className={style.logout}>Logout</button>
         </div>
         :
