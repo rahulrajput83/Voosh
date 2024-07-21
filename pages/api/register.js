@@ -26,7 +26,7 @@ const handler = async (req, res) => {
         await MongoDBConnect();
         const responseData = await RegisterModel.findOne({ email: req.body.email })
         if (responseData) {
-            res.json({ message: 'User already registered...' })
+            res.status(200).json({ message: 'User already registered...' })
         }
         else {
             const createNewUser = new RegisterModel({
