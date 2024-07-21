@@ -144,6 +144,28 @@ export default function Home() {
     getAllToDo()
   }, [search])
 
+  const updateTaskCategory = (taskId, taskNewCategory) => {
+    fetch(`/api/updateCategory`, {
+      method: 'PUT',
+      headers: {
+        access: access
+      },
+      body: JSON.stringify({ id: taskId, category: taskNewCategory + 1 })
+    })
+     .then(res => res.json())
+     .then((res) => {
+        if (res.message === 'Token Expired') {
+          router.push(del())
+        }
+        else if (res.message === 'Success') {
+          getAllToDo();
+        }
+      })
+     .catch((err) => {
+        console.log('err')
+      })
+  }
+
   useEffect(() => {
     if (singleId) getOneTask();
   }, [singleId, readOnly])
@@ -203,7 +225,7 @@ export default function Home() {
         </div>
         : null
       }
-      {data && data.length && <DragDrop setData={setData} data={data} handleDelete={handleDelete} setReadOnly={setReadOnly} setShowToDo={setShowToDo} setSingleLoading={setSingleLoading} setSingleId={setSingleId} />}
+      {data && data.length && <DragDrop setData={setData} data={data} handleDelete={handleDelete} setReadOnly={setReadOnly} setShowToDo={setShowToDo} setSingleLoading={setSingleLoading} setSingleId={setSingleId} updateTaskCategory={updateTaskCategory} />}
       {addPost ? <AddPost getAllToDo={getAllToDo} access={access} addPost={addPost} setAddPost={setAddPost} /> : null}
 
     </div >

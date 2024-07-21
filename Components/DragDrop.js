@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Draggable, DropResult, Droppable, DragDropContext } from "react-beautiful-dnd";
 import style from '../styles/Home.module.css'
 
-const DragDrop = ({ data, setData, handleDelete, setReadOnly, setShowToDo, setSingleLoading, setSingleId }) => {
+const DragDrop = ({ data, setData, handleDelete, setReadOnly, setShowToDo, setSingleLoading, setSingleId, updateTaskCategory }) => {
   const [defaultData, setDefaultData] = useState([]);
 
   const onDragEnd = (result) => {
@@ -16,17 +16,14 @@ const DragDrop = ({ data, setData, handleDelete, setReadOnly, setShowToDo, setSi
     // Extract indices
     const sourceCardIndex = newData.findIndex(card => card.id === source.droppableId);
     const destCardIndex = newData.findIndex(card => card.id === destination.droppableId);
-
     if (sourceCardIndex !== destCardIndex) {
-      // Moving between lists
       const [movedItem] = newData[sourceCardIndex].components.splice(source.index, 1);
       newData[destCardIndex].components.splice(destination.index, 0, movedItem);
+      updateTaskCategory(movedItem._id, destCardIndex)
     } else {
-      // Moving within the same list
       const [movedItem] = newData[sourceCardIndex].components.splice(source.index, 1);
       newData[sourceCardIndex].components.splice(destination.index, 0, movedItem);
     }
-
     setDefaultData(newData);
   };
 
