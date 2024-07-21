@@ -48,7 +48,7 @@ function Navbar() {
         }
         else if (res.message === 'Success') {
           if(res.data && res.data.imgUrl) {
-            setImgUrl(result.data?.imgUrl || defaultUserImg)
+            setImgUrl(res.data?.imgUrl || defaultUserImg)
           }
           else{
             setImgUrl(defaultUserImg)
