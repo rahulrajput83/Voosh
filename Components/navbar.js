@@ -5,6 +5,7 @@ import { del } from './del'
 import { useRouter } from 'next/router'
 import { PiNotepadBold } from "react-icons/pi";
 import { usePathname } from 'next/navigation'
+import { signOut } from 'next-auth/react';
 
 function Navbar() {
   const router = useRouter()
@@ -14,10 +15,9 @@ function Navbar() {
     const getAccess = localStorage.getItem('accessToken');
     setAccess(getAccess)
   }, [])
-  const handleLogout = () => {
+  const handleLogout = async() => {
+    await signOut({ redirect: false });
     router.push(del())
-    const getAccess = localStorage.getItem('accessToken');
-    setAccess(getAccess)
   }
   return (
     <nav className={style.nav}>

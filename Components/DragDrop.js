@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Draggable, DropResult, Droppable, DragDropContext } from "react-beautiful-dnd";
 import style from '../styles/Home.module.css'
 
-const DragDrop = ({ data, setData, handleDelete, setReadOnly, setShowToDo, setSingleLoading, setSingleId, updateTaskCategory }) => {
+const DragDrop = ({ data, handleDelete, setReadOnly, setShowToDo, setSingleLoading, setSingleId, updateTaskCategory }) => {
   const [defaultData, setDefaultData] = useState([]);
 
   const onDragEnd = (result) => {
@@ -28,8 +28,10 @@ const DragDrop = ({ data, setData, handleDelete, setReadOnly, setShowToDo, setSi
   };
 
   useEffect(() => {
-    setDefaultData(data);
-  }, []);
+    if(data.length) {
+      setDefaultData(data)
+    };
+  }, [data]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

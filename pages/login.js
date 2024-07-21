@@ -5,8 +5,10 @@ import style from '../styles/Login.module.css'
 import { useRouter } from 'next/router'
 import Link from "next/link";
 import Navbar from "../Components/navbar";
+import { signIn, useSession } from 'next-auth/react';
 
 function login() {
+    const { data: session, status } = useSession();
     let router = useRouter();
     const [userData, setUserData] = useState({
         email: '',
@@ -14,6 +16,13 @@ function login() {
     })
     const [loginDisable, setLoginDisable] = useState(false)
     const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if (session?.accessToken) {
+          localStorage.setItem('accessToken', session.accessToken);
+          router.push('/');
+        }
+      }, [session, router]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -84,7 +93,7 @@ function login() {
                             </span>
                         </Link>
                     </div>
-                    <button className={style.Button1}>
+                    <button onClick={(e) => {e.preventDefault();signIn('google')}} className={style.Button1}>
                         <span>Login with Google</span>
                     </button>
                 </form>

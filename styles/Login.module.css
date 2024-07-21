@@ -71,7 +71,8 @@
     background: #066bc9;
     padding: 0.5rem;
     color: white;
-    border-radius: 0.2rem
+    border-radius: 0.2rem;
+    cursor: pointer;
 }
 
 .Link {
@@ -100,7 +101,7 @@
 }
 
 .LoginCard .loader {
-    border: 0.2rem solid #1ba94c;
+    border: 0.2rem solid #066bc9;
     border-radius: 50%;
     border-top: 0.2rem solid white;
     width: 1.5rem;
