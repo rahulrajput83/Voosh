@@ -45,35 +45,37 @@
     margin-top: auto;
 }
 
-.input, .textarea {
- padding-bottom: 0.6rem;
-  width: 100%;
-  resize: none;
-  outline: none;
-  height: 20%;
-  outline-offset: 0;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  font-weight: 450;
-  border: none;
-  border-bottom: 0.1rem solid silver;
+.input,
+.textarea {
+    padding-bottom: 0.6rem;
+    width: 100%;
+    resize: none;
+    outline: none;
+    height: 20%;
+    outline-offset: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-weight: 450;
+    border: none;
+    border-bottom: 0.1rem solid silver;
 }
 
 .textStyle {
-  font-size: 0.8rem;
+    font-size: 0.8rem;
 }
 
-.save, .cancel{
-  font-size: 0.8rem;
-  color: #fff;
-  border-radius: 0.2rem;
-  background: #066bc9;
-  cursor: pointer;
-  padding: 0.5rem;
-  transition: all 0.2s ease-in-out;
-  border: none;
-  margin-right: 1.5rem;
+.save,
+.cancel {
+    font-size: 0.8rem;
+    color: #fff;
+    border-radius: 0.2rem;
+    background: #066bc9;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    margin-right: 1.5rem;
 }
 
 .cancel {
@@ -88,7 +90,7 @@
 
 .close:hover {
     transform: scale(1.3);
-  }
+}
 
 @media (min-width: 768px) {
     .AddPost {

@@ -2,14 +2,16 @@ import MongoDBConnect from '../../Utils/MongoDB';
 import ToDoModel from '../../Model/AddNewToDo';
 import JWTAuth from '../../Utils/JWTAut';
 
-
+/* Get all task endpoint */
 const GetToDoHandle = async (req, res) => {
     if (req.method !== 'GET') {
         res.json({ message: 'Only GET requests allowed' })
     }
     try {
+        /* Connect to mongodb */
         await MongoDBConnect();
         const searchTerm = req.query.search || '';
+        /* Find with user email and add filter also */
         const ToDo = await ToDoModel.find({
             email: req.user.email,
             title: { $regex: searchTerm, $options: 'i' }

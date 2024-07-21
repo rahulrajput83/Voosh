@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+/* MongoBB Schema form new task */
 const ToDo = new mongoose.Schema({
     email: String,
     userId: String,

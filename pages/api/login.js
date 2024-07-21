@@ -3,6 +3,7 @@ import RegisterModel from '../../Model/NewUser';
 import bcrypt from 'bcryptjs';
 const jwt = require('jsonwebtoken');
 
+/* Login with email and password endpoint */
 const LoginHandle = async (req, res) => {
   if (req.method !== 'POST') {
     res.json({ message: 'Only POST requests allowed' })

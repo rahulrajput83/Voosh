@@ -9,7 +9,7 @@ import AddPost from '../Components/AddPost'
 import DragDrop from '../Components/DragDrop'
 
 
-
+/* Home page component */
 export default function Home() {
   const router = useRouter();
   const [data, setData] = useState([]);
@@ -30,6 +30,7 @@ export default function Home() {
     order: 'recent'
   });
 
+  /* get all task function */
   const getAllToDo = () => {
     const getAccess = localStorage.getItem('accessToken');
     setAccess(getAccess);
@@ -67,6 +68,7 @@ export default function Home() {
     }
   }, [])
 
+  /* get one task function */
   const getOneTask = () => {
     fetch(`/api/oneToDo?post=${singleId}`, {
       method: 'GET',
@@ -89,6 +91,7 @@ export default function Home() {
       })
   }
 
+  /* delete task endpoint */
   const handleDelete = (id) => {
     fetch(`/api/delete?post=${id}`, {
       method: 'GET',
@@ -111,6 +114,7 @@ export default function Home() {
       })
   }
 
+  /* update task endpoint */
   const handleUpdate = (e) => {
     e.preventDefault();
     if (showToDo && data && data.length > 0) {
@@ -144,6 +148,7 @@ export default function Home() {
     getAllToDo()
   }, [search])
 
+  /* update task category function */
   const updateTaskCategory = (taskId, taskNewCategory) => {
     fetch(`/api/updateCategory`, {
       method: 'PUT',
@@ -152,8 +157,8 @@ export default function Home() {
       },
       body: JSON.stringify({ id: taskId, category: taskNewCategory + 1 })
     })
-     .then(res => res.json())
-     .then((res) => {
+      .then(res => res.json())
+      .then((res) => {
         if (res.message === 'Token Expired') {
           router.push(del())
         }
@@ -161,7 +166,7 @@ export default function Home() {
           getAllToDo();
         }
       })
-     .catch((err) => {
+      .catch((err) => {
         console.log('err')
       })
   }
@@ -170,6 +175,7 @@ export default function Home() {
     if (singleId) getOneTask();
   }, [singleId, readOnly])
 
+  /* Return */
   return <>
     <Head>
       <title>Home</title>
@@ -178,6 +184,7 @@ export default function Home() {
 
     <div className={style.dashboard}>
       <button className={style.addNewTask} onClick={() => setAddPost(true)}>Add Task</button>
+      {/* Filters */}
       <div className={style.filterCard}>
         <div className={style.search}>
           <span>Search</span>
@@ -193,7 +200,7 @@ export default function Home() {
       </div>
       {!loaded ? <div className={style.loader}></div> : null}
 
-      {data && loaded && data.length === 0 && <span className={style.empty}>Your Task list is empty. Add Now !!</span>}
+      {/* Show task popup */}
       {showToDo ?
         <div className={style.showToDo}>
           {!oneToDo ? <div className={style.loading}></div> : null}
@@ -225,7 +232,9 @@ export default function Home() {
         </div>
         : null
       }
+      {/* Common all task component */}
       {data && data.length && <DragDrop setData={setData} data={data} handleDelete={handleDelete} setReadOnly={setReadOnly} setShowToDo={setShowToDo} setSingleLoading={setSingleLoading} setSingleId={setSingleId} updateTaskCategory={updateTaskCategory} />}
+      {/* Add new task popup */}
       {addPost ? <AddPost getAllToDo={getAllToDo} access={access} addPost={addPost} setAddPost={setAddPost} /> : null}
 
     </div >

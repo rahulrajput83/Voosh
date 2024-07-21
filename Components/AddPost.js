@@ -4,7 +4,7 @@ import { MdClose, MdSave } from 'react-icons/md';
 import style from '../styles/AddPost.module.css'
 import { del } from './del';
 
-
+/* Add New Task Component */
 function AddPost({ getAllToDo, setAddPost, access }) {
     const router = useRouter();
     const [data, setData] = useState({
@@ -12,6 +12,7 @@ function AddPost({ getAllToDo, setAddPost, access }) {
         desc: ''
     })
 
+    /* Submit the data */
     const handleSubmit = (e) => {
         e.preventDefault();
         let date = new Date();
@@ -39,6 +40,8 @@ function AddPost({ getAllToDo, setAddPost, access }) {
                 console.log('err')
             })
     }
+
+    /* Return */
     return (
         <div className={style.AddPost}>
             <span className={style.title}>Add Task</span>

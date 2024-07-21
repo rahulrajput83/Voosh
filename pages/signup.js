@@ -7,6 +7,7 @@ import Navbar from "../Components/navbar";
 import style from '../styles/Login.module.css';
 import { signIn, useSession } from 'next-auth/react';
 
+/* Sign up component */
 function SignUp() {
     const { data: session, status } = useSession();
     const router = useRouter();
@@ -20,13 +21,15 @@ function SignUp() {
     const [loginDisable, setLoginDisable] = useState(false)
     const [message, setMessage] = useState("");
 
+    /* google signup */
     useEffect(() => {
         if (session?.accessToken) {
-          localStorage.setItem('accessToken', session.accessToken);
-          router.push('/');
+            localStorage.setItem('accessToken', session.accessToken);
+            router.push('/');
         }
-      }, [session, router]);
-      
+    }, [session, router]);
+
+    /* Signup function */
     const handleSubmit = (e) => {
         e.preventDefault();
         if (userData.email === '' || userData.password === '') {
@@ -67,6 +70,7 @@ function SignUp() {
         }
     }, [])
 
+    /* Return */
     return (
         <>
             <Head>
@@ -81,11 +85,11 @@ function SignUp() {
                     <Input name='email' className={style.input} placeholder='Email' type='email' userData={userData} setUserData={setUserData} />
                     <Input name='password' className={style.input} placeholder='Password' type='password' userData={userData} setUserData={setUserData} />
                     <Input name='confirmPassword' className={style.input} placeholder='Confirm Password' type='password' userData={userData} setUserData={setUserData} />
-                        <button disabled={loginDisable} className={style.Button} type="submit">
-                            {loginDisable ? <div className={style.loader}></div> : null}
-                            <span>Register</span>
-                        </button>
-                        <div className={style.btnGroup}>
+                    <button disabled={loginDisable} className={style.Button} type="submit">
+                        {loginDisable ? <div className={style.loader}></div> : null}
+                        <span>Register</span>
+                    </button>
+                    <div className={style.btnGroup}>
                         <span>Already have an account?</span>
                         <Link href='/login' className={style.Link}>
                             <span>
@@ -93,7 +97,7 @@ function SignUp() {
                             </span>
                         </Link>
                     </div>
-                    <button onClick={(e) => {e.preventDefault();signIn('google')}} className={style.Button1}>
+                    <button onClick={(e) => { e.preventDefault(); signIn('google') }} className={style.Button1}>
                         <span>Login with Google</span>
                     </button>
                 </form>

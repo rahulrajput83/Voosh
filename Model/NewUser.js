@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+/* MongoBB Schema form user */
 const Register = new mongoose.Schema({
     firstName: String,
     lastName: String,

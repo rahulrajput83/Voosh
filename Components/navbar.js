@@ -7,18 +7,24 @@ import { PiNotepadBold } from "react-icons/pi";
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react';
 
+/* Common navbar component */
 function Navbar() {
   const router = useRouter()
   const pathname = usePathname()
   const [access, setAccess] = useState('')
+  /* Get the accessToken from local storage */
   useEffect(() => {
     const getAccess = localStorage.getItem('accessToken');
     setAccess(getAccess)
   }, [])
-  const handleLogout = async() => {
+
+  /* Logout function */
+  const handleLogout = async () => {
     await signOut({ redirect: false });
     router.push(del())
   }
+
+  /* Return */
   return (
     <nav className={style.nav}>
       <Link href='/' className={style.Link}>

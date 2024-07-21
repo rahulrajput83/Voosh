@@ -4,6 +4,8 @@ import MongoDBConnect from '../../../Utils/MongoDB';
 import RegisterModel from '../../../Model/NewUser';
 const jwt = require('jsonwebtoken');
 
+
+/* Google Login Implementation */
 export default NextAuth({
   providers: [
     GoogleProvider({
@@ -39,7 +41,6 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      console.log('token', token);
       session.accessToken = token.accessToken;
       return session;
     },

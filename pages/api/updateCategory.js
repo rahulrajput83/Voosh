@@ -2,6 +2,7 @@ import MongoDBConnect from '../../Utils/MongoDB';
 import ToDoModel from '../../Model/AddNewToDo';
 import JWTAuth from '../../Utils/JWTAut';
 
+/* Update the category of task  */
 const updateCategory = async (req, res) => {
     if (req.method !== 'PUT') {
         res.json({ message: 'Only PUT requests allowed' })

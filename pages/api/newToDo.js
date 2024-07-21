@@ -2,7 +2,7 @@ import MongoDBConnect from '../../Utils/MongoDB';
 import ToDoModel from '../../Model/AddNewToDo';
 import JWTAuth from '../../Utils/JWTAut';
 
-
+/* Add new task endpoint */
 const AddToDoHandle = async (req, res) => {
     const data = JSON.parse(req.body);
     if (req.method !== 'POST') {
@@ -22,7 +22,7 @@ const AddToDoHandle = async (req, res) => {
         res.json({ message: 'Successfully Added' })
     }
     catch (error) {
-        res.json({ message: 'Error, Please try again...'})
+        res.json({ message: 'Error, Please try again...' })
     }
 }
 

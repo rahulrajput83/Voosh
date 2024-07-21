@@ -2,8 +2,9 @@ import MongoDBConnect from '../../Utils/MongoDB';
 import ToDoModel from '../../Model/AddNewToDo';
 import JWTAuth from '../../Utils/JWTAut';
 
+/* Get one task with id endpoint */
 const oneToDo = async (req, res) => {
-    const {post} = req.query;
+    const { post } = req.query;
     if (req.method !== 'GET') {
         res.json({ message: 'Only GET requests allowed' })
     }

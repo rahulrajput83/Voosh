@@ -40,7 +40,8 @@
     margin-top: 1rem;
 }
 
-.LoginCard .Button, .LoginCard .btnGroup .Link {
+.LoginCard .Button,
+.LoginCard .btnGroup .Link {
     width: 100%;
     text-decoration: none;
     margin: 2rem auto auto auto;
@@ -57,7 +58,8 @@
     gap: 1rem;
 }
 
-.Button, .Link {
+.Button,
+.Link {
     width: 100% !important;
     margin: 0;
     border: 0 !important;
@@ -67,7 +69,7 @@
 .Button1 {
     width: fit-content;
     margin: auto;
-    border: 0 ;
+    border: 0;
     background: #066bc9;
     padding: 0.5rem;
     color: white;
@@ -110,9 +112,10 @@
 }
 
 @keyframes spin {
-    0%{
+    0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
@@ -129,7 +132,9 @@
         width: 40%;
         padding: 2rem;
     }
-    .LoginCard .Button, .LoginCard .btnGroup .Link {
+
+    .LoginCard .Button,
+    .LoginCard .btnGroup .Link {
         width: 30%;
     }
 }

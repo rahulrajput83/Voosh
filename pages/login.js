@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import Link from "next/link";
 import Navbar from "../Components/navbar";
 import { signIn, useSession } from 'next-auth/react';
-
+/* Login component */
 function login() {
     const { data: session, status } = useSession();
     let router = useRouter();
@@ -17,13 +17,15 @@ function login() {
     const [loginDisable, setLoginDisable] = useState(false)
     const [message, setMessage] = useState("");
 
+    /* Check if google logged */
     useEffect(() => {
         if (session?.accessToken) {
-          localStorage.setItem('accessToken', session.accessToken);
-          router.push('/');
+            localStorage.setItem('accessToken', session.accessToken);
+            router.push('/');
         }
-      }, [session, router]);
+    }, [session, router]);
 
+    /* login with email and password function */
     const handleSubmit = (e) => {
         e.preventDefault();
         if (userData.email === '' || userData.password === '') {
@@ -70,6 +72,7 @@ function login() {
         }
     }, [])
 
+    /* return */
     return (
         <>
             <Head>
@@ -93,7 +96,7 @@ function login() {
                             </span>
                         </Link>
                     </div>
-                    <button onClick={(e) => {e.preventDefault();signIn('google')}} className={style.Button1}>
+                    <button onClick={(e) => { e.preventDefault(); signIn('google') }} className={style.Button1}>
                         <span>Login with Google</span>
                     </button>
                 </form>

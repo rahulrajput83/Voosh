@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react'
 import Navbar from '../../Components/navbar';
 
-
+/* One task component */
 function todo() {
   let router = useRouter()
   const [id, setId] = useState('')
@@ -22,7 +22,8 @@ function todo() {
           method: 'GET',
           headers: {
             access: getAccess
-          }})
+          }
+        })
           .then(res => res.json())
           .then((res) => {
             console.log(res)

@@ -2,18 +2,16 @@ import { useEffect, useState } from "react";
 import { Draggable, DropResult, Droppable, DragDropContext } from "react-beautiful-dnd";
 import style from '../styles/Home.module.css'
 
+/* Task with drag and drop */
 const DragDrop = ({ data, handleDelete, setReadOnly, setShowToDo, setSingleLoading, setSingleId, updateTaskCategory }) => {
   const [defaultData, setDefaultData] = useState([]);
 
+  /* Function to drop the item to new category */
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
     if (!destination) return;
-
-    // Clone the data to avoid direct mutation
     const newData = JSON.parse(JSON.stringify(defaultData));
-
-    // Extract indices
     const sourceCardIndex = newData.findIndex(card => card.id === source.droppableId);
     const destCardIndex = newData.findIndex(card => card.id === destination.droppableId);
     if (sourceCardIndex !== destCardIndex) {
@@ -28,7 +26,7 @@ const DragDrop = ({ data, handleDelete, setReadOnly, setShowToDo, setSingleLoadi
   };
 
   useEffect(() => {
-    if(data.length) {
+    if (data.length) {
       setDefaultData(data)
     };
   }, [data]);

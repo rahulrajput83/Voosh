@@ -2,25 +2,25 @@ import MongoDBConnect from '../../Utils/MongoDB';
 import RegisterModel from '../../Model/NewUser';
 import bcrypt from 'bcryptjs';
 
-
+/* Register new user endpoint */
 const handler = async (req, res) => {
     if (req.method !== 'POST') {
         res.json({ message: 'Only POST requests allowed' })
     }
     try {
-        if(!req.body.firstName){
+        if (!req.body.firstName) {
             res.json({ message: 'First Name required' })
         }
-        if(!req.body.lastName){
+        if (!req.body.lastName) {
             res.json({ message: 'Last Name required' })
         }
-        if(!req.body.email){
+        if (!req.body.email) {
             res.json({ message: 'email required' })
         }
-        if(!req.body.password){
+        if (!req.body.password) {
             res.json({ message: 'Password required' })
         }
-        if(req.body.password !== req.body.confirmPassword){
+        if (req.body.password !== req.body.confirmPassword) {
             res.json({ message: "Password doesn't matched" })
         }
         await MongoDBConnect();
