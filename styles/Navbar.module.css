@@ -30,6 +30,20 @@
     text-decoration: none;
 }
 
+.userRight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.userImage {
+    width: 35px;
+    height: 35px;
+    background: white;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 .logout {
     background-color: rgb(175, 7, 7) !important;
     color: white !important;

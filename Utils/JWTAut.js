@@ -5,7 +5,7 @@ function JWTAuth(handler) {
     const token = req.headers['access'];
     jwt.verify(token, process.env.JWT, (err, decoded) => {
       if (err) {
-        res.json({ message: 'Token Expired' })
+        res.status(401).json({ message: 'Token Expired' });
       }
       req.user = decoded;
       return handler(req, res);

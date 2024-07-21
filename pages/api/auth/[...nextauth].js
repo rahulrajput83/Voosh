@@ -19,6 +19,7 @@ export default NextAuth({
       let accessToken;
 
       if (user) {
+        console.log('user', user)
         const responseData = await RegisterModel.findOne({ email: user.email });
         if (responseData) {
           accessToken = await jwt.sign({ id: responseData._id, email: responseData.email }, process.env.JWT);
@@ -28,6 +29,7 @@ export default NextAuth({
             firstName: name[0] || '',
             lastName: name[1] || '',
             email: user.email,
+            imgUrl: user.image
           });
           await createNewUser.save();
           accessToken = await jwt.sign({ id: createNewUser._id, email: createNewUser.email }, process.env.JWT);

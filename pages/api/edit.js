@@ -5,7 +5,7 @@ import JWTAuth from '../../Utils/JWTAut';
 /* Edit task endpoint */
 const editToDo = async (req, res) => {
     if (req.method !== 'POST') {
-        res.json({ message: 'Only POST requests allowed' })
+        res.status(405).json({ message: 'Only POST requests allowed' })
     }
     try {
         const data = JSON.parse(req.body)
@@ -13,10 +13,10 @@ const editToDo = async (req, res) => {
         await MongoDBConnect();
         /* Update with id */
         await ToDoModel.updateOne({ _id: data.id }, { $set: { title: data.title, desc: data.desc } });
-        res.json({ message: 'Success' })
+        res.status(200).json({ message: 'Success' })
     }
     catch (error) {
-        res.json({ message: 'Error, Please try again...' })
+        res.status(500).json({ message: 'Error, Please try again...' })
     }
 }
 

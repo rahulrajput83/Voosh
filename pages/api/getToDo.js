@@ -5,7 +5,7 @@ import JWTAuth from '../../Utils/JWTAut';
 /* Get all task endpoint */
 const GetToDoHandle = async (req, res) => {
     if (req.method !== 'GET') {
-        res.json({ message: 'Only GET requests allowed' })
+        res.status(405).json({ message: 'Only GET requests allowed' })
     }
     try {
         /* Connect to mongodb */
@@ -61,10 +61,10 @@ const GetToDoHandle = async (req, res) => {
                 components: tasksByCategory.category3
             }
         ]
-        res.json({ message: 'Success', data: modifiedData })
+        res.status(200).json({ message: 'Success', data: modifiedData })
     }
     catch (error) {
-        res.json({ message: 'Error, Please try again...' })
+        res.status(500).json({ message: 'Error, Please try again...' })
     }
 }
 

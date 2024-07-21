@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 /* Register new user endpoint */
 const handler = async (req, res) => {
     if (req.method !== 'POST') {
-        res.json({ message: 'Only POST requests allowed' })
+        res.status(405).json({ message: 'Only POST requests allowed' })
     }
     try {
         if (!req.body.firstName) {
@@ -36,12 +36,11 @@ const handler = async (req, res) => {
                 password: bcrypt.hashSync(req.body.password, 1)
             })
             await createNewUser.save();
-            res.json({ message: 'User successfully registered...' });
+            res.status(200).json({ message: 'User successfully registered...' });
         }
     }
     catch (error) {
-        console.log(error)
-        res.json({ message: 'Error, Please try again...' })
+        res.status(500).json({ message: 'Error, Please try again...' })
     }
 }
 

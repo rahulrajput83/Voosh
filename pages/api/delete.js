@@ -6,17 +6,17 @@ import JWTAuth from '../../Utils/JWTAut';
 const deleteToDo = async (req, res) => {
     const { post } = req.query;
     if (req.method !== 'GET') {
-        res.json({ message: 'Only GET requests allowed' })
+        res.status(405).json({ message: 'Only GET requests allowed' })
     }
     try {
         /* Connect to mongodb */
         await MongoDBConnect();
         /* Find and delete with id */
         await ToDoModel.findOneAndDelete({ _id: post });
-        res.json({ message: 'Success' })
+        res.status(200).json({ message: 'Success' })
     }
     catch (error) {
-        res.json({ message: 'Error, Please try again...' })
+        res.status(500).json({ message: 'Error, Please try again...' })
     }
 }
 

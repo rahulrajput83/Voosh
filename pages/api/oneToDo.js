@@ -6,15 +6,15 @@ import JWTAuth from '../../Utils/JWTAut';
 const oneToDo = async (req, res) => {
     const { post } = req.query;
     if (req.method !== 'GET') {
-        res.json({ message: 'Only GET requests allowed' })
+        res.status(405).json({ message: 'Only GET requests allowed' })
     }
     try {
         await MongoDBConnect();
         const ToDo = await ToDoModel.findOne({ _id: post });
-        res.json({ message: 'Success', data: ToDo })
+        res.status(200).json({ message: 'Success', data: ToDo })
     }
     catch (error) {
-        res.json({ message: 'Error, Please try again...' })
+        res.status(500).json({ message: 'Error, Please try again...' })
     }
 }
 

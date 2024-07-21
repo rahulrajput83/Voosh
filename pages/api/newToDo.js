@@ -6,7 +6,7 @@ import JWTAuth from '../../Utils/JWTAut';
 const AddToDoHandle = async (req, res) => {
     const data = JSON.parse(req.body);
     if (req.method !== 'POST') {
-        res.json({ message: 'Only POST requests allowed' })
+        res.status(405).json({ message: 'Only POST requests allowed' })
     }
     try {
         await MongoDBConnect();
@@ -19,10 +19,10 @@ const AddToDoHandle = async (req, res) => {
             taskCategory: 1
         })
         await addNewToDo.save();
-        res.json({ message: 'Successfully Added' })
+        res.status(200).json({ message: 'Successfully Added' })
     }
     catch (error) {
-        res.json({ message: 'Error, Please try again...' })
+        res.status(500).json({ message: 'Error, Please try again...' })
     }
 }
 
