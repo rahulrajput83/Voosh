@@ -48,4 +48,9 @@ export default NextAuth({
     },
   },
   secret: process.env.JWT,
+  pages: {
+    signIn: '/login',  // Custom sign-in page
+    signOut: '/login',  // Custom sign-out page
+    error: '/login'
+  }
 });
