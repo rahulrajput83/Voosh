@@ -210,9 +210,9 @@ export default function Home() {
                 <span>{readOnly ? 'Task Details' : 'Edit Task'}</span>
                 <form onSubmit={handleUpdate}>
                   <span className={style.textStyle}>Title</span>
-                  <input required placeholder='Title' className={readOnly ? style.input : style.borderInput} readOnly={readOnly} name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />
+                  {readOnly ? <span className={style.titleShow}>{oneToDo.title}</span> : <input required placeholder='Title' className={style.borderInput} readOnly={readOnly} name='title' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} value={oneToDo.title} />}
                   <span className={style.textStyle}>Description</span>
-                  <textarea placeholder='Description' className={readOnly ? style.textarea : style.borderTextBox} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />
+                  {readOnly ? <span className={style.descShow}>{oneToDo.desc}</span> : <textarea placeholder='Description' className={style.borderTextBox} readOnly={readOnly} name='desc' onChange={(e) => setOneToDo({ ...oneToDo, [e.target.name]: e.target.value })} cols='10' value={oneToDo.desc} />}
                   <div className={style.bottomIcon}>
                     {!readOnly &&
                       <button className={style.edit} type='submit'>
